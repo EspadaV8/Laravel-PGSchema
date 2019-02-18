@@ -91,12 +91,12 @@ class Schemas
             $schemaName = [$schemaName];
         }
 
-        $query = 'SET search_path TO ' . implode(',', $schemaName);
+        $query = 'SET search_path TO "' . implode('", "', $schemaName) . '"';
 
 
         $result = DB::statement($query);
     }
-    
+
     private function setSchemaInConnection($schemaName)
     {
         $driver = DB::connection()->getConfig('driver');
