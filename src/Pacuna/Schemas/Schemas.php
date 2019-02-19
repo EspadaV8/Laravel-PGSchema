@@ -5,7 +5,6 @@ namespace Pacuna\Schemas;
 use DB;
 use Artisan;
 use Schema;
-use Config;
 
 /**
  * Class Schemas
@@ -85,8 +84,6 @@ class Schemas
      */
     public function switchTo($schemaName = 'public')
     {
-        $this->setSchemaInConnection($schemaName);
-
         if (!is_array($schemaName)) {
             $schemaName = [$schemaName];
         }
@@ -95,16 +92,6 @@ class Schemas
 
 
         $result = DB::statement($query);
-    }
-
-    private function setSchemaInConnection($schemaName)
-    {
-        $driver = DB::connection()->getConfig('driver');
-        $config = Config::get("database.connections.$driver");
-        $config['schema'] = $schemaName;
-
-        DB::purge($driver);
-        Config::set("database.connections.$driver", $config);
     }
 
     /**
